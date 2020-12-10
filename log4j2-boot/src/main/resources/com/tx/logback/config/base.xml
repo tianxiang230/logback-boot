@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+Base logback configuration provided for compatibility with Spring Boot 1.1
+-->
+
+<included>
+    <include resource="com/tx/logback/config/defaults.xml" />
+    <springProperty name="appName" scope="context" source="spring.application.name" defaultValue=""/>
+    <springProperty name="logPath" scope="context" source="logging.root.path" defaultValue="${user.home}/logs"/>
+    <springProperty name="logLevel" scope="context" source="logging.level.root" defaultValue="INFO"/>
+    <springProperty name="syncLog" scope="context" source="logging.sync" defaultValue="false"/>
+    <springProperty name="activeProfile" scope="context" source="spring.profiles.active" defaultValue="default"/>
+
+    <property name="LOG_FILE" value="${logPath}/${appName}/${appName}"/>
+    <property name="LOG_ROLL_FILE" value="${logPath}/${appName}/%d{yyyy-MM-dd}/${appName}.%d{yyyy-MM-dd}"/>
+
+    <include resource="com/tx/logback/config/console-appender.xml" />
+    <include resource="com/tx/logback/config/file-appender.xml" />
+
+    <if condition='property("syncLog").contains("true")'>
+        <then>
+            <include resource="com/tx/logback/config/appender-ref-sync.xml" />
+        </then>
+    </if>
+    <if condition='property("syncLog").contains("false")'>
+        <then>
+            <include resource="com/tx/logback/config/appender-ref.xml" />
+        </then>
+    </if>
+</included>

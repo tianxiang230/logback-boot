@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<included>
+    <appender name="ASYNC-CONSOLE" class="ch.qos.logback.classic.AsyncAppender">
+        <appender-ref ref="CONSOLE"/>
+    </appender>
+    <appender name="ASYNC-INFO" class="ch.qos.logback.classic.AsyncAppender">
+        <appender-ref ref="INFO-FILE"/>
+    </appender>
+    <appender name="ASYNC-DEBUG" class="ch.qos.logback.classic.AsyncAppender">
+        <appender-ref ref="DEBUG-FILE"/>
+    </appender>
+    <appender name="ASYNC-ERROR" class="ch.qos.logback.classic.AsyncAppender">
+        <appender-ref ref="ERROR-FILE"/>
+    </appender>
+    <appender name="ASYNC-TRACE" class="ch.qos.logback.classic.AsyncAppender">
+        <appender-ref ref="TRACE-FILE"/>
+    </appender>
+    <appender name="ASYNC-WARN" class="ch.qos.logback.classic.AsyncAppender">
+        <appender-ref ref="WARN-FILE"/>
+    </appender>
+
+    <if condition='property("activeProfile").contains("none")'>
+        <then>
+            <root level="${logLevel}">
+                <appender-ref ref="ASYNC-CONSOLE" />
+                <appender-ref ref="ASYNC-INFO"/>
+                <appender-ref ref="ASYNC-DEBUG"/>
+                <appender-ref ref="ASYNC-ERROR"/>
+                <appender-ref ref="ASYNC-TRACE"/>
+                <appender-ref ref="ASYNC-WARN"/>
+            </root>
+        </then>
+    </if>
+    <!-- 测试环境+开发环境. 多个使用逗号隔开. -->
+    <springProfile name="dev">
+        <logger name="root" level="${logLevel}">
+            <appender-ref ref="ASYNC-CONSOLE"/>
+        </logger>
+    </springProfile>
+    <!-- 生产环境. -->
+    <springProfile name="prod">
+        <logger name="com.tx" level="INFO" additivity="false">
+            <appender-ref ref="ASYNC-CONSOLE" />
+            <appender-ref ref="ASYNC-INFO"/>
+            <appender-ref ref="ASYNC-DEBUG"/>
+            <appender-ref ref="ASYNC-ERROR"/>
+            <appender-ref ref="ASYNC-TRACE"/>
+            <appender-ref ref="ASYNC-WARN"/>
+        </logger>
+    </springProfile>
+</included>
