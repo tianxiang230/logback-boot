@@ -10,7 +10,8 @@ Base logback configuration provided for compatibility with Spring Boot 1.1
     <springProperty name="logPath" scope="context" source="logging.root.path" defaultValue="${user.home}/logs"/>
     <springProperty name="logLevel" scope="context" source="logging.level.root" defaultValue="INFO"/>
     <springProperty name="syncLog" scope="context" source="logging.sync" defaultValue="false"/>
-    <springProperty name="activeProfile" scope="context" source="spring.profiles.active" defaultValue="default"/>
+    <springProperty name="activeProfile" scope="context" source="spring.profiles.active" defaultValue="none"/>
+    <springProperty name="logConsole" scope="context" source="log.console" defaultValue="none"/>
 
     <property name="LOG_FILE" value="${logPath}/${appName}/${appName}"/>
     <property name="LOG_ROLL_FILE" value="${logPath}/${appName}/%d{yyyy-MM-dd}/${appName}.%d{yyyy-MM-dd}"/>

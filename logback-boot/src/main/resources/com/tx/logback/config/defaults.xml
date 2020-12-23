@@ -19,5 +19,5 @@ initialization performed by Boot
     <logger name="org.apache.tomcat.util.net.NioSelectorPool" level="WARN"/>
     <logger name="org.eclipse.jetty.util.component.AbstractLifeCycle" level="ERROR"/>
     <logger name="org.hibernate.validator.internal.util.Version" level="WARN"/>
-    <logger name="org.springframework.core.env" level="DEBUG"/>
+    <logger name="org.springframework.core.env" level="WARN"/>
 </included>

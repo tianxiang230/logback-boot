@@ -26,4 +26,16 @@
             <appender-ref ref="ERROR-FILE"/>
         </logger>
     </springProfile>
+
+    <!--<if condition='property("logConsole").contains("true")'>
+        <logger name="root" level="${logLevel}">
+            <appender-ref ref="CONSOLE"/>
+        </logger>
+    </if>
+
+    <if condition='property("logConsole").contains("false")'>
+        <logger name="root" level="trane">
+            <appender-ref ref="CONSOLE"/>
+        </logger>
+    </if>-->
 </included>

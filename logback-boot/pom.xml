@@ -3,34 +3,21 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-	<parent>
-		<groupId>com.tx.core</groupId>
-		<artifactId>logutil-boot</artifactId>
-		<version>1.0.0-SNAPSHOT</version>
-	</parent>
 
     <groupId>com.tx.core</groupId>
     <artifactId>logback-boot</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
 
     <properties>
         <janino.version>2.6.1</janino.version>
     </properties>
-
-    <dependencyManagement>
-        <dependencies>
-            <dependency>
-                <groupId>org.codehaus.janino</groupId>
-                <artifactId>janino</artifactId>
-                <version>2.6.1</version>
-            </dependency>
-        </dependencies>
-    </dependencyManagement>
 
 <!--    for logback condition ele    -->
     <dependencies>
         <dependency>
             <groupId>org.codehaus.janino</groupId>
             <artifactId>janino</artifactId>
+            <version>2.6.1</version>
         </dependency>
     </dependencies>
 </project>
