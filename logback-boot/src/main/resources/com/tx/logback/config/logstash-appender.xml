@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- logstash config -->
+<included>
+    <appender name="LOGSTASH" class="net.logstash.logback.appender.LogstashTcpSocketAppender">
+            <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+                <level>INFO</level>
+            </filter>
+            <!--配置logstash的ip和端口，在logstash配置文件中-->
+            <destination>${logstashHost}</destination>
+            <queueSize>1048576</queueSize>
+            <encoder charset="UTF-8" class="net.logstash.logback.encoder.LogstashEncoder">
+                <providers>
+                    <timestamp>
+                        <timeZone>UTC+8</timeZone>
+                    </timestamp>
+                </providers>
+    <!--            <customFields>{"date":%date{yyyy-MM-dd HH:mm:ss.SSS} }</customFields>-->
+            </encoder>
+
+            <!-- 日志输出编码 -->
+        <!-- <encoder charset="UTF-8" class="net.logstash.logback.encoder.LoggingEventCompositeJsonEncoder">
+                <providers>
+                    <timestamp>
+                        <timeZone>UTC</timeZone>
+                    </timestamp>
+                    <pattern>
+                        {
+                        "datetime": "%d{yyyy-MM-dd HH:mm:ss.SSS}",
+                        "msg":"%msg",
+                        "appName":"${springAppName:-}",
+                        "className":"%logger{40}",
+                        "thread": "%thread",
+                        "threadName":"%X{thread_name}",
+                        "logLever": "%level",
+                        "class_name": "%class",
+                        "line_number": "%line",
+                        "message": "%message",
+                        }
+                    </pattern>
+                </providers>
+            </encoder>-->
+        </appender>
+    </included>

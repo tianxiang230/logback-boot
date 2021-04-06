@@ -4,7 +4,9 @@
     <if condition='property("activeProfile").contains("none")'>
         <then>
             <root level="${logLevel}">
-                <appender-ref ref="CONSOLE" />
+                <if condition='property("logConsole").contains("true")'>
+                    <appender-ref ref="CONSOLE" />
+                </if>
                 <appender-ref ref="INFO-FILE"/>
                 <appender-ref ref="DEBUG-FILE"/>
                 <appender-ref ref="ERROR-FILE"/>
@@ -14,16 +16,30 @@
     <!-- 测试环境+开发环境. 多个使用逗号隔开. -->
     <springProfile name="dev">
         <logger name="root" level="${logLevel}">
-            <appender-ref ref="CONSOLE"/>
+            <if condition='property("logConsole").contains("true")'>
+                <appender-ref ref="CONSOLE" />
+            </if>
+            <if condition='property("openLogstash").contains("true")'>
+                <then>
+                    <appender-ref ref="LOGSTASH"/>
+                </then>
+            </if>
         </logger>
     </springProfile>
     <!-- 生产环境. -->
     <springProfile name="prod">
         <logger name="com.tx" level="INFO" additivity="false">
-            <appender-ref ref="CONSOLE"/>
+            <if condition='property("logConsole").contains("true")'>
+                <appender-ref ref="CONSOLE" />
+            </if>
             <appender-ref ref="INFO-FILE"/>
             <appender-ref ref="DEBUG-FILE"/>
             <appender-ref ref="ERROR-FILE"/>
+            <if condition='property("openLogstash").contains("true")'>
+                <then>
+                    <appender-ref ref="LOGSTASH"/>
+                </then>
+            </if>
         </logger>
     </springProfile>
 

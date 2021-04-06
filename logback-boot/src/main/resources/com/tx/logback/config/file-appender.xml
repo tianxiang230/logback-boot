@@ -5,8 +5,18 @@ File appender logback configuration provided for import, equivalent to the progr
 initialization performed by Boot
 -->
 
+<!-- 
+    LevelFilter： 级别过滤器，根据日志级别进行过滤。如果日志级别等于配置级别，过滤器会根据onMath 和 onMismatch接收或拒绝日志。有以下子节点：
+        <level>:设置过滤级别
+        <onMatch>:用于配置符合过滤条件的操作
+        <onMismatch>:用于配置不符合过滤条件的操作
+        
+    ThresholdFilter： 临界值过滤器，过滤掉低于指定临界值的日志。当日志级别等于或高于临界值时，过滤器返回NEUTRAL；当日志级别低于临界值时，日志会被拒绝。
+ -->
+
 <included>
     <appender name="INFO-FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <!-- 只记录INFO级别日志 -->
         <filter class="ch.qos.logback.classic.filter.LevelFilter">
             <level>INFO</level>
             <onMatch>ACCEPT</onMatch>
@@ -17,9 +27,15 @@ initialization performed by Boot
             <charset>UTF-8</charset>
         </encoder>
         <append>true</append>
+
+        <!--日志名称，如果没有File 属性，那么只会使用FileNamePattern的文件路径规则
+            如果同时有<File>和<FileNamePattern>，那么当天日志是<File>，明天会自动把今天
+            的日志改名为今天的日期。即，<File> 的日志都是当天的。
+        -->
         <file>${LOG_FILE}-info.log</file>
+        <!--滚动策略，按照时间滚动 TimeBasedRollingPolicy-->
         <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
-            <fileNamePattern>${LOG_ROLL_FILE}-info.%i.gz</fileNamePattern>
+            <fileNamePattern>${LOG_ROLL_FILE}-info.%i.log</fileNamePattern>
             <maxFileSize>${LOG_FILE_MAX_SIZE:-10MB}</maxFileSize>
             <maxHistory>${LOG_FILE_MAX_HISTORY:-30}</maxHistory>
         </rollingPolicy>
