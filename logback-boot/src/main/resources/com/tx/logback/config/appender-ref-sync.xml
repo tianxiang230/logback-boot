@@ -20,6 +20,14 @@
         <appender-ref ref="WARN-FILE"/>
     </appender>
 
+    <if condition='property("openLogstash").contains("true")'>
+        <then>
+            <appender name="ASYNC-LOGSTASH" class="ch.qos.logback.classic.AsyncAppender">
+                <appender-ref ref="LOGSTASH"/>
+            </appender>
+        </then>
+    </if>
+
     <if condition='property("activeProfile").contains("none")'>
         <then>
             <root level="${logLevel}">
@@ -29,6 +37,12 @@
                 <appender-ref ref="ASYNC-ERROR"/>
                 <appender-ref ref="ASYNC-TRACE"/>
                 <appender-ref ref="ASYNC-WARN"/>
+
+                <if condition='property("openLogstash").contains("true")'>
+                    <then>
+                        <appender ref="ASYNC-LOGSTASH" />
+                    </then>
+                </if>
             </root>
         </then>
     </if>
@@ -36,17 +50,29 @@
     <springProfile name="dev">
         <logger name="root" level="${logLevel}">
             <appender-ref ref="ASYNC-CONSOLE"/>
+            <if condition='property("openLogstash").contains("true")'>
+                <then>
+                    <appender ref="ASYNC-LOGSTASH" />
+                </then>
+            </if>
         </logger>
     </springProfile>
+
+
     <!-- 生产环境. -->
     <springProfile name="prod">
         <logger name="com.tx" level="INFO" additivity="false">
-            <appender-ref ref="ASYNC-CONSOLE" />
+            <!-- <appender-ref ref="ASYNC-CONSOLE" /> -->
             <appender-ref ref="ASYNC-INFO"/>
             <appender-ref ref="ASYNC-DEBUG"/>
             <appender-ref ref="ASYNC-ERROR"/>
             <appender-ref ref="ASYNC-TRACE"/>
             <appender-ref ref="ASYNC-WARN"/>
+            <if condition='property("openLogstash").contains("true")'>
+                <then>
+                    <appender ref="ASYNC-LOGSTASH" />
+                </then>
+            </if>
         </logger>
     </springProfile>
 </included>
