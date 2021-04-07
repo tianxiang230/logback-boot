@@ -1,23 +1,44 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <included>
-    <if condition='property("activeProfile").contains("none")'>
+    <if condition='property("activeProfile").contains("none") || property("activeProfile").contains("default")'>
         <then>
             <root level="${logLevel}">
                 <if condition='property("logConsole").contains("true")'>
-                    <appender-ref ref="CONSOLE" />
+                    <then>
+                        <appender-ref ref="CONSOLE" />
+                    </then>
                 </if>
                 <appender-ref ref="INFO-FILE"/>
                 <appender-ref ref="DEBUG-FILE"/>
                 <appender-ref ref="ERROR-FILE"/>
             </root>
         </then>
+        <else>
+            <root level="${logLevel}">
+                <if condition='property("logConsole").contains("true")'>
+                    <then>
+                        <appender-ref ref="CONSOLE" />
+                    </then>
+                </if>
+                <if condition='property("openLogstash").contains("true")'>
+                    <then>
+                        <appender-ref ref="LOGSTASH"/>
+                    </then>
+                </if>
+                <appender-ref ref="INFO-FILE"/>
+                <appender-ref ref="DEBUG-FILE"/>
+                <appender-ref ref="ERROR-FILE"/>
+            </root>
+        </else>
     </if>
     <!-- 测试环境+开发环境. 多个使用逗号隔开. -->
-    <springProfile name="dev">
+    <springProfile name="dev,rd">
         <logger name="root" level="${logLevel}">
             <if condition='property("logConsole").contains("true")'>
-                <appender-ref ref="CONSOLE" />
+                <then>
+                    <appender-ref ref="CONSOLE" />
+                </then>
             </if>
             <if condition='property("openLogstash").contains("true")'>
                 <then>
@@ -27,10 +48,12 @@
         </logger>
     </springProfile>
     <!-- 生产环境. -->
-    <springProfile name="prod">
+    <springProfile name="prod,online,test,qa">
         <logger name="com.tx" level="INFO" additivity="false">
             <if condition='property("logConsole").contains("true")'>
-                <appender-ref ref="CONSOLE" />
+                <then>
+                    <appender-ref ref="CONSOLE" />
+                </then>
             </if>
             <appender-ref ref="INFO-FILE"/>
             <appender-ref ref="DEBUG-FILE"/>

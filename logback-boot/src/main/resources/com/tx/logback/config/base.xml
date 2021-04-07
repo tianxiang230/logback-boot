@@ -14,7 +14,7 @@ Base logback configuration provided for compatibility with Spring Boot 1.1
     <springProperty name="syncLog" scope="context" source="logging.sync" defaultValue="false"/>
     <springProperty name="openLogstash" scope="context" source="logging.logstash" defaultValue="false"/>
     <springProperty name="logstashHost" scope="context" source="logging.logstash.host" defaultValue="pc.acer:4560"/>
-    <springProperty name="logConsole" scope="context" source="logging.console" defaultValue="none"/>
+    <springProperty name="logConsole" scope="context" source="logging.console" defaultValue="true"/>
 
     <property name="LOG_FILE" value="${logPath}/${appName}/${appName}"/>
     <property name="LOG_ROLL_FILE" value="${logPath}/${appName}/%d{yyyy-MM-dd}/${appName}.%d{yyyy-MM-dd}"/>
